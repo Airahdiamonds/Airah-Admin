@@ -6,7 +6,6 @@ import cors from 'cors'
 import {
 	addProduct,
 	getAllProducts,
-	getAllRings,
 	getProduct,
 	updateProduct,
 } from './drizzle/features/products.js'
@@ -77,31 +76,31 @@ app.put('/api/admin/updateProduct/:product_id', async (req, res) => {
 	}
 })
 
-app.get('/api/admin/getAllProductsByCategory/:category', async (req, res) => {
-	try {
-		const { category } = req.params
-		let data
+// app.get('/api/admin/getAllProductsByCategory/:category', async (req, res) => {
+// 	try {
+// 		const { category } = req.params
+// 		let data
 
-		const categoryHandlers = {
-			diamond: getAllDiamonds,
-			ring: getAllRings,
-		}
+// 		const categoryHandlers = {
+// 			diamond: getAllDiamonds,
+// 			ring: getAllRings,
+// 		}
 
-		if (categoryHandlers[category]) {
-			data = await categoryHandlers[category]()
-		} else {
-			return res.status(400).json({ error: `Invalid category: ${category}` })
-		}
+// 		if (categoryHandlers[category]) {
+// 			data = await categoryHandlers[category]()
+// 		} else {
+// 			return res.status(400).json({ error: `Invalid category: ${category}` })
+// 		}
 
-		res.json(data)
-	} catch (err) {
-		console.error(
-			`Error fetching products for category "${req.params.category}":`,
-			err
-		)
-		res.status(500).json({ error: 'Failed to fetch products' })
-	}
-})
+// 		res.json(data)
+// 	} catch (err) {
+// 		console.error(
+// 			`Error fetching products for category "${req.params.category}":`,
+// 			err
+// 		)
+// 		res.status(500).json({ error: 'Failed to fetch products' })
+// 	}
+// })
 
 app.get('/api/admin/getAllUsers', async (req, res) => {
 	try {
