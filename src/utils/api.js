@@ -407,3 +407,29 @@ export const getCustomStyle = async ({
 		return null
 	}
 }
+
+export const fetchUserOrders = async () => {
+	try {
+		const response = await axios.get(`${REACT_APP_API_URL}/admin/orders`)
+		return response.data
+	} catch (error) {
+		console.error('Error fetching orders:', error)
+		return []
+	}
+}
+
+export const updateOrderStatus = async (orderId, status) => {
+	try {
+		const response = await axios.post(
+			`${REACT_APP_API_URL}/admin/updateStatus`,
+			{
+				orderId,
+				status,
+			}
+		)
+		return response.data
+	} catch (error) {
+		console.error('Error updating order status:', error)
+		return null
+	}
+}

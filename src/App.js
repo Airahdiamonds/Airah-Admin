@@ -12,6 +12,7 @@ import AddDiamond from './screens/Admin/AddDiamond'
 import AddStyle from './screens/Admin/AddStyle'
 import DiamondsList from './screens/Admin/DiamondsList'
 import StylesList from './screens/Admin/StylesList'
+import Orders from './screens/Admin/Orders'
 
 function App() {
 	return (
@@ -32,6 +33,7 @@ function App() {
 							<Route path="/addStyles" element={<AddStyle />} />
 							<Route path="/diamondsList" element={<DiamondsList />} />
 							<Route path="/stylesList" element={<StylesList />} />
+							<Route path="/orderList" element={<Orders />} />
 						</Routes>
 					</div>
 				</div>
