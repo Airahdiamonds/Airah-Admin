@@ -1,35 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchOrders, updateStatus } from '../../redux/ordersSlice'
 
-const OrderManagement = () => {
-	const [orders, setOrders] = useState([])
-	const [loading, setLoading] = useState(true)
+const Orders = () => {
+	// const [orders, setOrders] = useState([])
+	// const [loading, setLoading] = useState(true)
+	const dispatch = useDispatch()
+	const { orders, status, error } = useSelector((state) => state.orders)
 
 	useEffect(() => {
-		fetchOrders()
+		dispatch(fetchOrders())
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	const fetchOrders = async () => {
-		try {
-			const response = await fetch('/api/orders')
-			const data = await response.json()
-			setOrders(data)
-			setLoading(false)
-		} catch (error) {
-			console.error('Error fetching orders:', error)
-		}
-	}
-
 	const updateOrderStatus = async (orderId, status) => {
-		try {
-			await fetch(`/api/orders/${orderId}`, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ status }),
-			})
-			fetchOrders() // Refresh orders
-		} catch (error) {
-			console.error('Error updating order status:', error)
-		}
+		dispatch(updateStatus({ orderId, status }))
+		dispatch(fetchOrders())
 	}
 
 	const cancelOrder = async (orderId) => {
@@ -40,9 +26,6 @@ const OrderManagement = () => {
 			console.error('Error cancelling order:', error)
 		}
 	}
-
-	if (loading)
-		return <p className="text-center text-gray-600">Loading orders...</p>
 
 	return (
 		<div className="max-w-4xl mx-auto p-6">
@@ -60,24 +43,26 @@ const OrderManagement = () => {
 				<tbody>
 					{orders.map((order) => (
 						<tr key={order.id} className="border">
-							<td className="p-2 border">{order.id}</td>
-							<td className="p-2 border">{order.userId}</td>
-							<td className="p-2 border">${order.totalAmount}</td>
+							<td className="p-2 border">{order.order_id}</td>
+							<td className="p-2 border">{order.user_id}</td>
+							<td className="p-2 border">${order.total_amount}</td>
 							<td className="p-2 border">{order.status}</td>
 							<td className="p-2 border space-x-2">
 								<select
 									className="p-1 border rounded"
 									value={order.status}
-									onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+									onChange={(e) =>
+										updateOrderStatus(order.order_id, e.target.value)
+									}
 								>
-									<option value="Pending">Pending</option>
-									<option value="Shipped">Shipped</option>
-									<option value="Delivered">Delivered</option>
-									<option value="Cancelled">Cancelled</option>
+									<option value="pending">Pending</option>
+									<option value="shipped">Shipped</option>
+									<option value="delivered">Delivered</option>
+									<option value="cancelled">Cancelled</option>
 								</select>
 								<button
 									className="bg-red-500 text-white px-2 py-1 rounded"
-									onClick={() => cancelOrder(order.id)}
+									onClick={() => cancelOrder(order.order_id)}
 								>
 									Cancel
 								</button>
@@ -90,4 +75,4 @@ const OrderManagement = () => {
 	)
 }
 
-export default OrderManagement
+export default Orders
