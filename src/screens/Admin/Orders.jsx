@@ -6,15 +6,14 @@ const Orders = () => {
 	// const [orders, setOrders] = useState([])
 	// const [loading, setLoading] = useState(true)
 	const dispatch = useDispatch()
-	const { orders, status, error } = useSelector((state) => state.orders)
+	const { orders } = useSelector((state) => state.orders)
 
 	useEffect(() => {
 		dispatch(fetchOrders())
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [dispatch])
 
 	const updateOrderStatus = async (orderId, status) => {
-		dispatch(updateStatus({ orderId, status }))
+		await dispatch(updateStatus({ orderId, status }))
 		dispatch(fetchOrders())
 	}
 

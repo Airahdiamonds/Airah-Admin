@@ -4,7 +4,7 @@ import { fetchUserOrders, updateOrderStatus } from '../utils/api'
 // Fetch orders from backend
 export const fetchOrders = createAsyncThunk(
 	'orders/fetchOrders',
-	async ({ rejectWithValue }) => {
+	async (_, { rejectWithValue }) => {
 		try {
 			return await fetchUserOrders()
 		} catch (error) {
