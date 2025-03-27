@@ -13,15 +13,43 @@ import AddStyle from './screens/Admin/AddStyle'
 import DiamondsList from './screens/Admin/DiamondsList'
 import StylesList from './screens/Admin/StylesList'
 import Orders from './screens/Admin/Orders'
+import Login from './screens/Admin/Login'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
 	return (
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
+				<Routes>
+					<Route path="/login" element={<Login />} />
+					<Route
+						path="/*"
+						element={
+							<ProtectedRoute>
+								<div className="flex">
+									<Sidebar />
+									<div className="flex-1">
+										<Routes>
+											<Route path="/" element={<AdminDashboard />} />
+											<Route path="/addProducts" element={<AddProduct />} />
+											<Route path="/productsList" element={<ProductsList />} />
+											<Route path="/userList" element={<UsersList />} />
+											<Route path="/orderList" element={<Orders />} />
+											<Route path="/master" element={<Master />} />
+											<Route path="/addDiamonds" element={<AddDiamond />} />
+											<Route path="/addStyles" element={<AddStyle />} />
+											<Route path="/diamondsList" element={<DiamondsList />} />
+											<Route path="/stylesList" element={<StylesList />} />
+										</Routes>
+									</div>
+								</div>
+							</ProtectedRoute>
+						}
+					/>
+				</Routes>
+				{/* <Route path="/login" element={<Login />} />
 				<div className="flex">
-					{/* Sidebar on the left */}
 					<Sidebar />
-					{/* Main Content */}
 					<div className="flex-1">
 						<Routes>
 							<Route path="/" element={<AdminDashboard />} />
@@ -36,7 +64,7 @@ function App() {
 							<Route path="/orderList" element={<Orders />} />
 						</Routes>
 					</div>
-				</div>
+				</div> */}
 			</PersistGate>
 		</Provider>
 	)
