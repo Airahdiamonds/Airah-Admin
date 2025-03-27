@@ -7,6 +7,7 @@ import ringCustomizationReducer from './redux/ringCustomizationSlice'
 import favoritesCartReducer from './redux/favoritesCartSlice'
 import userProductsReducer from './redux/userProductsSlice'
 import ordersReducer from './redux/ordersSlice'
+import authReducer from './redux/authSlice'
 
 const persistConfig = {
 	key: 'root',
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
 	favoritesCart: favoritesCartReducer,
 	userProducts: userProductsReducer,
 	orders: ordersReducer,
+	auth: authReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
