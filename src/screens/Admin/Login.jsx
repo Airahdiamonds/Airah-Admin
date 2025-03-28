@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../../redux/authSlice'
-import { useDispatch } from 'react-redux'
+import { loginUser } from '../../redux/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function AdminLogin() {
 	const [email, setEmail] = useState('')
@@ -11,22 +11,18 @@ export default function AdminLogin() {
 	const [isLoading, setIsLoading] = useState(false)
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			navigate('/')
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isAuthenticated])
 
 	const handleLogin = async (e) => {
 		e.preventDefault()
-		setIsLoading(true)
-		setError('')
-
-		// Simulate API call
-		setTimeout(() => {
-			if (email === 'admin@example.com' && password === 'admin123') {
-				dispatch(login({ name: 'Admin', email }))
-				navigate('/')
-			} else {
-				setError('Invalid email or password')
-				setIsLoading(false)
-			}
-		}, 1500)
+		dispatch(loginUser({ email, password }))
 	}
 
 	return (

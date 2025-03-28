@@ -433,3 +433,16 @@ export const updateOrderStatus = async (orderId, status) => {
 		return null
 	}
 }
+
+export const loginAdmin = async (email, password) => {
+	try {
+		const response = await axios.post(`${REACT_APP_API_URL}/admin/login`, {
+			email,
+			password,
+		})
+		return response.data
+	} catch (error) {
+		console.error('Error logging in:', error)
+		throw error
+	}
+}
