@@ -16,7 +16,7 @@ const Dashboard = () => {
 	const [activeTab, setActiveTab] = useState('overview')
 	const [salesData, setSalesData] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
-
+	const tabs = ["overview", "inventory", "customers", "orders", "settings"];
 	useEffect(() => {
 		dispatch(fetchProducts(1))
 		dispatch(fetchUsers())
@@ -113,26 +113,30 @@ const Dashboard = () => {
 		const maxSales = Math.max(...salesData.map((item) => item.sales))
 
 		return (
-			<div className="mt-4 h-64">
-				<div className="flex items-end h-52 space-x-2">
-					{salesData.map((item, index) => (
-						<div key={index} className="flex flex-col items-center flex-1">
-							<div
-								className="w-full bg-blue-500 rounded-t hover:bg-blue-600 transition-all duration-300"
-								style={{
-									height: `${(item.sales / maxSales) * 100}%`,
-									minHeight: '4px',
-								}}
-							>
-								<div className="opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/80 text-white text-xs rounded p-1 absolute -mt-8 ml-2">
-									${(item.sales / 1000).toFixed(1)}k
-								</div>
-							</div>
-							<div className="text-xs mt-2 text-gray-600">{item.month}</div>
-						</div>
-					))}
+			<div className="mt-6 p-4 bg-white shadow-lg rounded-lg">
+			<h2 className="text-lg font-semibold text-gray-800 text-center mb-4">
+			  Monthly Sales Overview
+			</h2>
+	  
+			<div className="flex items-end h-52 md:h-64 space-x-2 md:space-x-4 overflow-x-auto md:justify-center">
+			  {salesData.map((item, index) => (
+				<div key={index} className="flex flex-col items-center flex-1 min-w-[40px] sm:min-w-[50px] md:min-w-[60px]">
+				  <div
+					className="relative w-full bg-blue-500 rounded-t-md hover:bg-blue-600 transition-all duration-300"
+					style={{
+					  height: `${(item.sales / maxSales) * 100}%`,
+					  minHeight: "4px",
+					}}
+				  >
+					<div className="absolute opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/80 text-white text-xs rounded p-1 -mt-8 left-1/2 transform -translate-x-1/2">
+					  ${item.sales / 1000}k
+					</div>
+				  </div>
+				  <div className="text-xs mt-2 text-gray-600">{item.month}</div>
 				</div>
+			  ))}
 			</div>
+		  </div>
 		)
 	}
 
@@ -246,25 +250,26 @@ const Dashboard = () => {
 			</div>
 
 			{/* Navigation Tabs */}
-			<div className="bg-white border-b px-6">
-				<div className="flex space-x-8">
-					{['overview', 'inventory', 'customers', 'orders', 'settings'].map(
-						(tab) => (
-							<button
-								key={tab}
-								className={`py-4 px-2 font-medium text-sm border-b-2 transition-colors ${
-									activeTab === tab
-										? 'border-blue-600 text-blue-600'
-										: 'border-transparent text-gray-500 hover:text-gray-700'
-								}`}
-								onClick={() => setActiveTab(tab)}
-							>
-								{tab.charAt(0).toUpperCase() + tab.slice(1)}
-							</button>
-						)
-					)}
-				</div>
-			</div>
+			<div className="bg-white border-b px-4 md:px-6 shadow-md">
+      <div className="flex space-x-4 md:space-x-8 overflow-x-auto no-scrollbar">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            className={`relative py-3 px-4 text-sm font-medium transition-all duration-300 rounded-t-md ${
+              activeTab === tab
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500 hover:text-blue-600"
+            }`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {activeTab === tab && (
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600 transition-all duration-300"></span>
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
 
 			{/* Main Content */}
 			<div className="p-6">

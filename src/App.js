@@ -26,9 +26,12 @@ function App() {
             path="/*"
             element={
               <ProtectedRoute>
-                <div className="flex">
-                  <Sidebar />
-                  <main className="flex-1 ">
+                <div className="flex h-screen">
+                  {/* Sidebar: Fixed width and position */}
+                  <Sidebar className="w-64 h-screen fixed left-0 top-0 bg-gray-800" />
+
+                  {/* Main Content: Scrollable */}
+                  <main className="flex-1  overflow-y-auto h-screen ">
                     <Routes>
                       <Route path="/" element={<AdminDashboard />} />
                       <Route path="/addProducts" element={<AddProduct />} />
