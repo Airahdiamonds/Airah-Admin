@@ -26,10 +26,7 @@
   },
   "scripts": {
     "start": "cross-env PORT=3005 react-scripts start",
-    "build": "react-scripts build",
-    "dev": "concurrently \"npm start\" \"npm run server\" \"npm run db\"",
-    "server": "cd backend && npm start",
-    "db": "cd backend && npm run db:studio"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
