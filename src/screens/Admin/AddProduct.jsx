@@ -44,12 +44,12 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 	}
 
 	return (
-		<div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg">
+		<div className="max-w-4xl mx-auto p-2 ">
 			<h2 className="text-2xl font-bold mb-4">
 				{initialData ? 'Update Product' : 'Add Product'}
 			</h2>
-			<form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-				<div>
+			<form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4 border border-gray px-4 py-2 rounded-md">
+				<div className="col-span-2">
 					<label className="block font-medium">Product Name</label>
 					<input
 						type="text"
@@ -107,7 +107,7 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 						<option value="labgrown">Lab-Grown</option>
 					</select>
 				</div>
-				<div className="col-span-2">
+				<div className="col-span-3">
 					<label className="block font-medium">Description</label>
 					<textarea
 						name="description"
@@ -272,12 +272,14 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 						className="border p-2 rounded w-full"
 					/>
 				</div>
-				<button
-					type="submit"
-					className="bg-blue-500 text-white p-2 rounded col-span-2"
-				>
-					{initialData ? 'Update Product' : 'Add Product'}
-				</button>
+				<div className="col-span-4">
+					<button
+						type="submit"
+						className="bg-gray-700 text-white p-2 rounded-md w-full"
+					>
+						{initialData ? 'Update Product' : 'Add Product'}
+					</button>
+				</div>
 			</form>
 		</div>
 	)
