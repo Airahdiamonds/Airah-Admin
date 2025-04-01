@@ -26,6 +26,7 @@
   },
   "scripts": {
     "start": "cross-env PORT=3005 react-scripts start",
+    "start:prod": "cross-env NODE_ENV=production react-scripts build",
     "build": "react-scripts build"
   },
   "eslintConfig": {
