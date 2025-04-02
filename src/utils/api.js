@@ -130,6 +130,21 @@ export const getAllProducts = async (userId) => {
 	}
 }
 
+export const getAdminProducts = async () => {
+	try {
+		const response = await axios.get(
+			`${REACT_APP_API_URL}/admin/getAdminProducts`
+		)
+		return response
+	} catch (error) {
+		console.log(
+			'Error getting all products:',
+			error.response ? error.response.data : error.message
+		)
+		throw error
+	}
+}
+
 export const getAllProductsByCategory = async (category) => {
 	try {
 		const response = await axios.get(
