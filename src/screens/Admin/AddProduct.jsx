@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { addProduct, updateProduct } from '../../utils/api'
 import { convertFormData, productJson } from '../../utils/helpers'
 import { useDispatch } from 'react-redux'
-import { fetchProducts } from '../../redux/userProductsSlice'
+import { fetchAdminProducts } from '../../redux/userProductsSlice'
 import ImageURLInput from '../../components/ImageURLInput'
 
 const AddProduct = ({ initialData = null, onSuccess }) => {
@@ -15,6 +15,13 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 			setFormData(initialData)
 		}
 	}, [initialData])
+
+	const handleUploadSuccess = (uploadedUrls) => {
+		setFormData((prev) => ({
+			...prev,
+			image_URL: [...prev.image_URL, ...uploadedUrls],
+		}))
+	}
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
@@ -34,9 +41,9 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 				// Add new product
 				await addProduct(cleanedData)
 				alert('Product added successfully!')
-				dispatch(fetchProducts(1))
+				dispatch(fetchAdminProducts())
 			}
-			setFormData(productJson)
+			setFormData({ ...productJson })
 			onSuccess?.() // Call callback function to refresh list
 		} catch (error) {
 			console.error('Error:', error)
@@ -52,6 +59,7 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 				onSubmit={handleSubmit}
 				className="grid grid-cols-4 gap-4 px-4 py-2 rounded-md"
 			>
+				<ImageURLInput onUploadSuccess={handleUploadSuccess} />
 				<div className="col-span-2">
 					<label className="block font-medium">Product Name</label>
 					<input
@@ -96,7 +104,7 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 						<option value="bracelet">Bracelet</option>
 					</select>
 				</div>
-				<div className="col-span-3">
+				<div className="col-span-2">
 					<label className="block font-medium">Description</label>
 					<textarea
 						name="description"
@@ -131,12 +139,6 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 						<option value="Statement Necklaces">Statement Necklaces</option>
 					</select>
 				</div>
-				<ImageURLInput
-					imageURLs={formData.image_URL}
-					setImageURLs={(newImageURLs) =>
-						setFormData({ ...formData, image_URL: newImageURLs })
-					}
-				/>
 				<div>
 					<label className="block font-medium">Gold Quantity</label>
 					<input
@@ -477,6 +479,9 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 						className="border p-2 rounded w-full"
 					/>
 				</div>
+				<div></div>
+				<div></div>
+
 				<div className="col-span-4 flex justify-center">
 					<button
 						type="submit"
