@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from 'react-redux'
 export default function AdminLogin() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const [error, setError] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
+	const [localError, setLocalError] = useState('')
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
-	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+	const { isAuthenticated, error, isLoading } = useSelector(
+		(state) => state.auth
+	)
 
 	useEffect(() => {
 		if (isAuthenticated) {
@@ -20,8 +21,19 @@ export default function AdminLogin() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isAuthenticated])
 
+	useEffect(() => {
+		if (error) {
+			setLocalError(error)
+		}
+	}, [error])
+
 	const handleLogin = async (e) => {
 		e.preventDefault()
+		if (!email || !password) {
+			setLocalError('Email and password are required')
+			return
+		}
+		setLocalError('')
 		dispatch(loginUser({ email, password }))
 	}
 
@@ -194,7 +206,6 @@ export default function AdminLogin() {
 								/>
 							</div>
 						</div>
-
 						<button
 							type="submit"
 							disabled={isLoading}
