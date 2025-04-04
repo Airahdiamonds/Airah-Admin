@@ -1,11 +1,15 @@
 import axios from 'axios'
 import { useState } from 'react'
 
-const ImageURLInput = ({ onUploadSuccess }) => {
+const ImageURLInput = ({
+	onUploadSuccess,
+	uploadedImages,
+	setUploadedImages,
+}) => {
 	const [selectedFiles, setSelectedFiles] = useState([])
 	const [uploading, setUploading] = useState(false)
 	const [previewUrls, setPreviewUrls] = useState([])
-	const [uploadedImages, setUploadedImages] = useState([])
+	// const [uploadedImages, setUploadedImages] = useState([])
 
 	const handleFileChange = (e) => {
 		const files = Array.from(e.target.files)

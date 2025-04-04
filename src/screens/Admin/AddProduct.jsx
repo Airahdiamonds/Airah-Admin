@@ -8,11 +8,13 @@ import ImageURLInput from '../../components/ImageURLInput'
 const AddProduct = ({ initialData = null, onSuccess }) => {
 	const dispatch = useDispatch()
 	const [formData, setFormData] = useState(productJson)
+	const [uploadedImages, setUploadedImages] = useState([])
 
 	// Pre-fill the form if initialData is provided
 	useEffect(() => {
 		if (initialData) {
 			setFormData(initialData)
+			setUploadedImages(initialData.image_URL || [])
 		}
 	}, [initialData])
 
@@ -44,6 +46,7 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 				dispatch(fetchAdminProducts())
 			}
 			setFormData({ ...productJson })
+			setUploadedImages([])
 			onSuccess?.() // Call callback function to refresh list
 		} catch (error) {
 			console.error('Error:', error)
@@ -59,7 +62,11 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 				onSubmit={handleSubmit}
 				className="grid grid-cols-4 gap-4 px-4 py-2 rounded-md"
 			>
-				<ImageURLInput onUploadSuccess={handleUploadSuccess} />
+				<ImageURLInput
+					onUploadSuccess={handleUploadSuccess}
+					uploadedImages={uploadedImages}
+					setUploadedImages={setUploadedImages}
+				/>
 				<div className="col-span-2">
 					<label className="block font-medium">Product Name</label>
 					<input

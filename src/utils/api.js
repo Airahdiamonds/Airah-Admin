@@ -180,6 +180,54 @@ export const getAllUsers = async () => {
 	}
 }
 
+export const createAdmin = async (data) => {
+	try {
+		const response = await axios.post(
+			`${REACT_APP_API_URL}/admin/createAdmin`,
+			data
+		)
+		return response
+	} catch (error) {
+		console.log('Error creating admin', error)
+		throw error
+	}
+}
+
+export const updateAdmin = async (userId, data) => {
+	try {
+		const response = await axios.put(
+			`${REACT_APP_API_URL}/admin/updateAdmin/${userId}`,
+			data
+		)
+		return response
+	} catch (error) {
+		console.log('Error updating admin', error)
+		throw error
+	}
+}
+
+export const deleteAdmin = async (userId) => {
+	try {
+		const response = await axios.delete(
+			`${REACT_APP_API_URL}/admin/deleteAdmin/${userId}`
+		)
+		return response
+	} catch (error) {
+		console.log('Error deleting admin', error)
+		throw error
+	}
+}
+
+export const getAllAdmin = async () => {
+	try {
+		const response = await axios.get(`${REACT_APP_API_URL}/admin/getAllAdmin`)
+		return response
+	} catch (error) {
+		console.log('Error getting all admin', error)
+		throw error
+	}
+}
+
 export const getProduct = async (productId) => {
 	try {
 		const response = await axios.get(
@@ -458,6 +506,6 @@ export const loginAdmin = async (email, password) => {
 		return response.data
 	} catch (error) {
 		console.error('Error logging in:', error)
-		throw error
+		throw new Error(error.response?.data?.message)
 	}
 }
