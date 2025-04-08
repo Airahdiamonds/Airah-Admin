@@ -31,7 +31,7 @@ const ImageURLInput = ({
 		setUploading(true)
 		try {
 			const response = await axios.post(
-				'http://localhost:4000/admin/upload',
+				'https://airahdiamonds.com/api/admin/upload',
 				formData,
 				{
 					headers: { 'Content-Type': 'multipart/form-data' },

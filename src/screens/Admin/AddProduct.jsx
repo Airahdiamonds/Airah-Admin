@@ -62,11 +62,6 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 				onSubmit={handleSubmit}
 				className="grid grid-cols-4 gap-4 px-4 py-2 rounded-md"
 			>
-				<ImageURLInput
-					onUploadSuccess={handleUploadSuccess}
-					uploadedImages={uploadedImages}
-					setUploadedImages={setUploadedImages}
-				/>
 				<div className="col-span-2">
 					<label className="block font-medium">Product Name</label>
 					<input
@@ -488,7 +483,11 @@ const AddProduct = ({ initialData = null, onSuccess }) => {
 				</div>
 				<div></div>
 				<div></div>
-
+				<ImageURLInput
+					onUploadSuccess={handleUploadSuccess}
+					uploadedImages={uploadedImages}
+					setUploadedImages={setUploadedImages}
+				/>
 				<div className="col-span-4 flex justify-center">
 					<button
 						type="submit"
