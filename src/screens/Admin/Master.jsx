@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react'
 import { getMasterList, addMasterEntry } from '../../utils/api'
 import { formatDate } from '../../utils/helpers'
+import { FiPlus } from 'react-icons/fi'
 
 const Master = () => {
 	const [showForm, setShowForm] = useState(false)
 	const [products, setProducts] = useState([])
 	const [formData, setFormData] = useState({
 		GBP_rate: '',
-		INR_rate: '',
+		USD_rate: '',
 		gold_rate: '',
 		diamond_rate: '',
+		AUD_rate: '',
+		EUR_rate: '',
+		AED_rate: '',
+		OMR_rate: '',
 	})
 
 	useEffect(() => {
@@ -29,9 +34,13 @@ const Master = () => {
 		setShowForm(false)
 		setFormData({
 			GBP_rate: '',
-			INR_rate: '',
+			USD_rate: '',
 			gold_rate: '',
 			diamond_rate: '',
+			AUD_rate: '',
+			EUR_rate: '',
+			AED_rate: '',
+			OMR_rate: '',
 		})
 	}
 
@@ -52,41 +61,53 @@ const Master = () => {
 	}
 
 	return (
-		<div className="max-w-6xl mx-auto p-8">
-			<div className="flex justify-between items-center">
-				<h2 className="text-2xl font-bold mb-4">Masters List</h2>
+		<div className="max-w-6xl mx-auto p-6">
+			<h2 className="text-3xl font-semibold text-gray-800 mb-6 flex justify-between items-center">
+				Masters List
 				<button
 					onClick={() => setShowForm(true)}
-					className="bg-blue-500 text-white px-4 py-1 rounded"
+					className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
 				>
-					Add
+					<FiPlus />
+					<span className="text-lg">Add Admin</span>
 				</button>
+			</h2>
+			<div className="bg-white shadow-md rounded-lg overflow-hidden">
+				<div className="overflow-x-auto">
+					<table className="min-w-full bg-white">
+						<thead>
+							<tr className="bg-blue-500 text-white text-left text-sm uppercase">
+								<th className="border px-4 py-2">Date</th>
+								<th className="border px-4 py-2">GBP Rate</th>
+								<th className="border px-4 py-2">USD Rate</th>
+								<th className="border px-4 py-2">EUR Rate</th>
+								<th className="border px-4 py-2">AED Rate</th>
+								<th className="border px-4 py-2">AUD Rate</th>
+								<th className="border px-4 py-2">OMR Rate</th>
+								<th className="border px-4 py-2">Gold Rate</th>
+								<th className="border px-4 py-2">Diamond Rate</th>
+							</tr>
+						</thead>
+						<tbody>
+							{products.map((product) => (
+								<tr key={product.product_id} className="border">
+									<td className="border px-4 py-2">
+										{formatDate(product.created_at)}
+									</td>
+									<td className="border px-4 py-2">{product.GBP_rate}</td>
+									<td className="border px-4 py-2">{product.USD_rate}</td>
+									<td className="border px-4 py-2">{product.EUR_rate}</td>
+									<td className="border px-4 py-2">{product.AED_rate}</td>
+									<td className="border px-4 py-2">{product.AUD_rate}</td>
+									<td className="border px-4 py-2">{product.OMR_rate}</td>
+									<td className="border px-4 py-2">{product.gold_rate}</td>
+									<td className="border px-4 py-2">{product.diamond_rate}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
 			</div>
-
-			<table className="min-w-full bg-white border border-gray-200">
-				<thead>
-					<tr className="bg-gray-100">
-						<th className="border px-4 py-2">Date</th>
-						<th className="border px-4 py-2">GBP Rate</th>
-						<th className="border px-4 py-2">INR Rate</th>
-						<th className="border px-4 py-2">Gold Rate</th>
-						<th className="border px-4 py-2">Diamond Rate</th>
-					</tr>
-				</thead>
-				<tbody>
-					{products.map((product) => (
-						<tr key={product.product_id} className="border">
-							<td className="border px-4 py-2">
-								{formatDate(product.created_at)}
-							</td>
-							<td className="border px-4 py-2">{product.GBP_rate}</td>
-							<td className="border px-4 py-2">{product.INR_rate}</td>
-							<td className="border px-4 py-2">{product.gold_rate}</td>
-							<td className="border px-4 py-2">{product.diamond_rate}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
 
 			{/* Add Entry Form */}
 			{showForm && (

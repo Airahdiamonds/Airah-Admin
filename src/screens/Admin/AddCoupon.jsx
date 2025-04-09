@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { addCouponEntry, getCouponList } from '../../utils/api'
 import { formatDate } from '../../utils/helpers'
+import { FiPlus } from 'react-icons/fi'
 
 const AddCoupon = () => {
 	const [showForm, setShowForm] = useState(false)
@@ -52,41 +53,45 @@ const AddCoupon = () => {
 	}
 
 	return (
-		<div className="max-w-6xl mx-auto p-8">
-			<div className="flex justify-between items-center">
-				<h2 className="text-2xl font-bold mb-4">Coupons List</h2>
+		<div className="max-w-6xl mx-auto p-6">
+			<h2 className="text-3xl font-semibold text-gray-800 mb-6 flex justify-between items-center">
+				Coupons List
 				<button
 					onClick={() => setShowForm(true)}
-					className="bg-blue-500 text-white px-4 py-1 rounded"
+					className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
 				>
-					Add
+					<FiPlus />
+					<span className="text-lg">Add</span>
 				</button>
+			</h2>
+			<div className="bg-white shadow-md rounded-lg overflow-hidden">
+				<div className="overflow-x-auto">
+					<table className="min-w-full bg-white">
+						<thead>
+							<tr className="bg-blue-500 text-white text-left text-sm uppercase">
+								<th className="border px-4 py-2">Coupon Code</th>
+								<th className="border px-4 py-2">Discount %</th>
+								<th className="border px-4 py-2">Expiry Date</th>
+								<th className="border px-4 py-2">Max Uses</th>
+							</tr>
+						</thead>
+						<tbody>
+							{products.map((product) => (
+								<tr key={product.product_id} className="border">
+									<td className="border px-4 py-2">{product.code}</td>
+									<td className="border px-4 py-2">
+										{product.discount_percentage}
+									</td>
+									<td className="border px-4 py-2">
+										{formatDate(product.expiry_date)}
+									</td>
+									<td className="border px-4 py-2">{product.max_uses}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
 			</div>
-
-			<table className="min-w-full bg-white border border-gray-200">
-				<thead>
-					<tr className="bg-gray-100">
-						<th className="border px-4 py-2">Coupon Code</th>
-						<th className="border px-4 py-2">Discount %</th>
-						<th className="border px-4 py-2">Expiry Date</th>
-						<th className="border px-4 py-2">Max Uses</th>
-					</tr>
-				</thead>
-				<tbody>
-					{products.map((product) => (
-						<tr key={product.product_id} className="border">
-							<td className="border px-4 py-2">{product.code}</td>
-							<td className="border px-4 py-2">
-								{product.discount_percentage}
-							</td>
-							<td className="border px-4 py-2">
-								{formatDate(product.expiry_date)}
-							</td>
-							<td className="border px-4 py-2">{product.max_uses}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
 
 			{/* Add Entry Form */}
 			{showForm && (
