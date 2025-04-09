@@ -27,11 +27,17 @@ export default function Sidebar() {
 			children: [
 				{ title: 'Add Product', path: '/addProducts' },
 				{ title: 'Products List', path: '/productsList' },
+				{ title: 'Add Diamonds', path: '/addDiamonds' },
+				{ title: 'Diamonds List', path: '/diamondsList' },
+				{ title: 'Add Styles', path: '/addStyles' },
+				{ title: 'Styles List', path: '/stylesList' },
 			],
 		},
 		{ title: 'Admin', path: '/adminList' },
 		{ title: 'Users', path: '/userList' },
 		{ title: 'Orders', path: '/orderList' },
+		{ title: 'Master', path: '/master' },
+		{ title: 'Coupons', path: '/coupons' },
 	]
 
 	return (

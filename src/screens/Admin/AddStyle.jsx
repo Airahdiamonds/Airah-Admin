@@ -8,11 +8,13 @@ import ImageURLInput from '../../components/ImageURLInput'
 const AddStyle = ({ initialData = null, onSuccess }) => {
 	const dispatch = useDispatch()
 	const [formData, setFormData] = useState(stylesJson)
+	const [uploadedImages, setUploadedImages] = useState([])
 
 	// Pre-fill the form if initialData is provided
 	useEffect(() => {
 		if (initialData) {
 			setFormData(initialData)
+			setUploadedImages(initialData.image_URL || [])
 		}
 	}, [initialData])
 
@@ -38,19 +40,30 @@ const AddStyle = ({ initialData = null, onSuccess }) => {
 				dispatch(fetchStyles(1))
 			}
 			setFormData(stylesJson)
+			setUploadedImages([])
 			onSuccess?.() // Call callback function to refresh list
 		} catch (error) {
 			console.error('Error:', error)
 		}
 	}
 
+	const handleUploadSuccess = (uploadedUrls) => {
+		setFormData((prev) => ({
+			...prev,
+			image_URL: [...prev.image_URL, ...uploadedUrls],
+		}))
+	}
+
 	return (
-		<div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg">
-			<h2 className="text-2xl font-bold mb-4">
+		<div className="mx-auto p-6">
+			<h2 className="text-3xl font-semibold text-gray-800 mb-6">
 				{initialData ? 'Update Style' : 'Add Style'}
 			</h2>
-			<form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-				<div>
+			<form
+				onSubmit={handleSubmit}
+				className="grid grid-cols-4 gap-4 px-4 py-2 rounded-md"
+			>
+				<div className="col-span-2">
 					<label className="block font-medium">Style Name</label>
 					<input
 						type="text"
@@ -70,12 +83,7 @@ const AddStyle = ({ initialData = null, onSuccess }) => {
 						className="border p-2 rounded w-full"
 					/>
 				</div>
-				<ImageURLInput
-					imageURLs={formData.image_URL}
-					setImageURLs={(newImageURLs) =>
-						setFormData({ ...formData, image_URL: newImageURLs })
-					}
-				/>
+
 				<div className="col-span-2">
 					<label className="block font-medium">Description</label>
 					<textarea
@@ -205,12 +213,19 @@ const AddStyle = ({ initialData = null, onSuccess }) => {
 						className="border p-2 rounded w-full"
 					/>
 				</div>
-				<button
-					type="submit"
-					className="bg-blue-500 text-white p-2 rounded col-span-2"
-				>
-					{initialData ? 'Update Style' : 'Add Style'}
-				</button>
+				<ImageURLInput
+					onUploadSuccess={handleUploadSuccess}
+					uploadedImages={uploadedImages}
+					setUploadedImages={setUploadedImages}
+				/>
+				<div className="col-span-4 flex justify-center">
+					<button
+						type="submit"
+						className="bg-gray-700 text-white p-2 rounded-md w-1/4"
+					>
+						{initialData ? 'Update Style' : 'Add Style'}
+					</button>
+				</div>
 			</form>
 		</div>
 	)

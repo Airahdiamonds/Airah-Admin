@@ -16,6 +16,7 @@ import Orders from './screens/Admin/Orders'
 import Login from './screens/Admin/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminList from './screens/Admin/AdminList'
+import AddCoupon from './screens/Admin/AddCoupon'
 
 function App() {
 	return (
@@ -45,6 +46,7 @@ function App() {
 											<Route path="/addStyles" element={<AddStyle />} />
 											<Route path="/diamondsList" element={<DiamondsList />} />
 											<Route path="/stylesList" element={<StylesList />} />
+											<Route path="/coupons" element={<AddCoupon />} />
 										</Routes>
 									</main>
 								</div>
