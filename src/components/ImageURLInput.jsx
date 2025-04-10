@@ -25,13 +25,13 @@ const ImageURLInput = ({
 		}
 		console.log('Uploading files:', selectedFiles.length)
 		const formData = new FormData()
-		selectedFiles.forEach((file, index) => {
-			formData.append(`image_${index}`, file) // Unique key per image
+		selectedFiles.forEach((file) => {
+			formData.append('images', file) // Unique key per image
 		})
 		setUploading(true)
 		try {
 			const response = await axios.post(
-				'https://airahdiamonds.com/api/admin/upload',
+				'http://localhost:4000/admin/upload',
 				formData,
 				{
 					headers: { 'Content-Type': 'multipart/form-data' },
